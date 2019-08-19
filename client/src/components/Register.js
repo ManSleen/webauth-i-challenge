@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const Register = () => {
+const Register = ({register}) => {
     const [credentials, setCredentials] = useState({
         username: "",
         password: ""
@@ -17,7 +17,7 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(credentials);
+        register(credentials);
     }
 
     return (
