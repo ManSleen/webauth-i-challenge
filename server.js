@@ -7,8 +7,8 @@ const UserRouter = require("./auth/userRouter");
 
 const server = express();
 
-server.use(helmet);
-server.use(express.json);
+server.use(helmet());
+server.use(express.json());
 
 //Use routers here
 server.use("/api", UserRouter);
