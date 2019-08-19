@@ -6,12 +6,20 @@ module.exports = {
   find
 };
 
+function findById(id) {
+  return db("users")
+    .where({ id })
+    .first();
+}
+
 function add(user) {
-  return "users".insert(user, "id").then(ids => {
-    console.log(ids);
-    const [id] = ids;
-    return findById(id);
-  });
+  return db("users")
+    .insert(user, "id")
+    .then(ids => {
+      console.log(ids);
+      const [id] = ids;
+      return findById(id);
+    });
 }
 
 function findBy(filter) {

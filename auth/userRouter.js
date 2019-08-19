@@ -1,6 +1,10 @@
 const express = require("express");
 
+const bcrypt = require("bcryptjs");
+
 const Users = require("./userModel");
+
+const restricted = require("./auth-middleware");
 
 const router = express.Router();
 
@@ -11,7 +15,7 @@ router.post("/register", (req, res) => {
   user.password = hash;
 
   Users.add(user)
-    .then(savedUSer => {
+    .then(savedUser => {
       res.status(201).json(savedUser);
     })
     .catch(error => {
@@ -37,7 +41,7 @@ router.post("/login", (req, res) => {
 });
 
 //If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'.
-router.get("/users", (req, res) => {
+router.get("/users", restricted, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
