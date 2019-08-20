@@ -1,12 +1,7 @@
-const express = require("express");
-
+const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const Users = require("./userModel");
-
-const restricted = require("./auth-middleware");
-
-const router = express.Router();
+const Users = require("../users/users-model");
 
 //Creates a user using the information sent inside the body of the request. Hash the password before saving the user to the database.
 router.post("/register", (req, res) => {
@@ -30,6 +25,7 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        req.session.username = user.username;
         res.status(200).json({ message: `Logged in as ${user.username}` });
       } else {
         res.status(401).json({ message: "You shall not pass!" });
@@ -40,15 +36,10 @@ router.post("/login", (req, res) => {
     });
 });
 
-//If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the correct status code and the message: 'You shall not pass!'.
-router.get("/users", restricted, (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(error => {
-      res.send(err);
-    });
+router.get("/logout", (req, res) => {
+  req.session.destroy(error => {
+    res.status(200).json({ message: "Later homie!" });
+  });
 });
 
 module.exports = router;
