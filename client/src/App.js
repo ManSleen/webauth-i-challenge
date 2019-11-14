@@ -9,7 +9,7 @@ import UsersList from './components/UsersList'
 import './App.css';
 
 const login = (user) => {
-  axios.post("http://localhost:5001/api/login", user)
+  axios.post("http://localhost:5001/api/auth/login", user)
     .then(res => {
       console.log(res);
     })
@@ -19,7 +19,7 @@ const login = (user) => {
 }
 
 const register = (user) => {
-  axios.post("http://localhost:5001/api/register", user)
+  axios.post("http://localhost:5001/api/auth/register", user)
     .then(res => {
       console.log(res);
     })
@@ -27,6 +27,8 @@ const register = (user) => {
       console.log(err);
     })
 }
+
+
 
 function App() {
   return (
